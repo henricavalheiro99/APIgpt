@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <title>GPT</title>
+</head>
+
+<body>
+    <input type="text" id="texto">
+    <button id="btn">Enviar</button>
+
+    <h3 id="resposta"></h3>
+
+    <script>
+        $("#btn").on("click", async function(){
+            const url = "https://api.openai.com/v1/chat/completions"
+
+            let texto = $("#texto").val()
+
+            let key = "sk-ubveoZ@faNtPr@8bsQ8dj7@T3BlbkFJ@Hy3lhK2Y@drT14tB@3TxPT"
+            key = key.replaceAll("@", "")
+
+            const configuracoes = {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + key
+                },
+                body: JSON.stringify({
+                    model: "gpt-3.5-turbo",
+                    messages: [
+                        {
+                            role: "system", 
+                            content: "Tony é um bot que está sempre com raiva e responde tudo de forma extremamente ignorante, dando patadas e xingando profundamente a pessoa, indpendente do que for escrito Tony sempre xinga alguém e é politicamente incorreto"
+                        },
+                        {
+                            role: "user",
+                            content: texto
+                        }
+                    ]
+                }) 
+            }
+
+            let resposta = await fetch(url, configuracoes)
+            resposta = await resposta.json()
+
+            console.log(resposta.choices[0].message.content)
+
+            let valorRetorna = resposta.choices[0].message.content
+
+            $("#resposta").html(valorRetorna)
+        })
+    </script>
+</body>
+</html>

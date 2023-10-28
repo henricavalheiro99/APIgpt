@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API</title>
+</head>
+
+<body>
+    <script>
+        // acessa uma url 
+        // GET - passa informações pela URL, sendo visível para todo mundo
+        // POST - passa informações em sigilo
+        // API é o garçom que leva a informção do cliente(front-END) para a cozinha(back-END)
+
+
+        // async function busca(){
+        //     let site = await fetch("https://duug.com.br/", {
+        //         method: "GET" 
+        //     })
+        //     console.log(site.text())
+        // }
+        // busca()
+
+        const url = 'https://google-translate1.p.rapidapi.com/language/translate/v2';
+        const options = {
+            method: 'POST',
+            // Cabeça da requisição - informações de segurança
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded',
+                'Accept-Encoding': 'application/gzip',
+                'X-RapidAPI-Key': 'f2e2622cefmshdc7b6d5503ca518p1575a5jsn60aff118a826',
+                'X-RapidAPI-Host': 'google-translate1.p.rapidapi.com'
+            },
+            // Informações importantes
+            body: new URLSearchParams({
+                q: 'Hello World',
+                target: 'es',
+                source: 'en'
+            })
+        };
+
+        async function busca(){
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                console.log(result.data.translations[0].translatedText);
+            } catch (error) {
+                console.error(error)
+            }
+        }
+        busca()
+
+    </script>
+</body>
+
+</html>
